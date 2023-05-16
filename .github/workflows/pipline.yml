@@ -30,24 +30,24 @@ jobs:
       - name: building the project
         run: npm run build
 
-     #  - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: superfly/flyctl-actions/setup-flyctl@master
 
-  #     - name: deploy to fly.io
-  #       if: ${{ github.event_name == 'push' }}
-  #       run: flyctl deploy --remote-only
-  #       env:
-  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: deploy to fly.io
+        if: ${{ github.event_name == 'push' }}
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-  # tag_release:
-  #   needs: [simple_deployment_pipeline]
-  #   runs-on: ubuntu-20.04
-  #   steps:
-  #     - uses: actions/checkout@v3
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
         
-  #     - name: Github Tag Bump
-  #       if: ${{ github.event_name == 'push' }}
-  #       uses: anothrNick/github-tag-action@1.65.0
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.TRIALS }}
+      - name: Github Tag Bump
+        if: ${{ !contains(toJson(github.event.commits.*.message), '#skip') && github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.65.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRIALS }}
           
       
