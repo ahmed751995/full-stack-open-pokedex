@@ -30,6 +30,13 @@ jobs:
       - name: building the project
         run: npm run build
 
+      - name: Github Tag Bump
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.65.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.TRIALS }}
+
+
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: deploy to fly.io
