@@ -23,7 +23,12 @@ jobs:
 
       - name: code linting
         run: npm run eslint
-
+        
+      - name: use multiple command
+        run: |
+          echo "hi"
+          echo "good one"
+          
       - name: testing the code
         run: npm run test
 
